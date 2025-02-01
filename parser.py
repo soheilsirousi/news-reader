@@ -4,9 +4,32 @@ from converter import convert_month
 from persiantools import digits
 from persiantools.jdatetime import JalaliDateTime
 import datetime
+from abc import ABC, abstractmethod
 
 
-class Parser:
+class Parser(ABC):
+
+    @abstractmethod
+    def parse(self, url):
+        pass
+    
+    @property
+    @abstractmethod
+    def title(self):
+        pass
+
+    @property
+    @abstractmethod
+    def date(self):
+        pass
+
+    @property
+    @abstractmethod
+    def body(self):
+        pass
+
+
+class DigiatoParser(Parser):
 
     def parse(self, url):
         request = requests.get(url)
@@ -47,7 +70,7 @@ class Parser:
 
 
 if __name__ == '__main__':
-    par = Parser()
+    par = DigiatoParser()
     par.parse('https://digiato.com/artificial-intelligence/silicon-valley-leaders-react-to-their-new-rival-deepseek')
     print(par.title)
     print(par.date)
